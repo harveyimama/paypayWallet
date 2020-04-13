@@ -1,0 +1,1 @@
+package com.techland.paypay.wallet.factories;import com.techland.paypay.contracts.PayPayState;import com.techland.paypay.wallet.impl.WalletState;public class StateFactory { public PayPayState getState(){ return (PayPayState) new WalletState(); } }
