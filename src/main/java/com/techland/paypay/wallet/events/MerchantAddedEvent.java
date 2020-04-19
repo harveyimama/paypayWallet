@@ -3,10 +3,12 @@ package com.techland.paypay.wallet.events;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.techland.paypay.contracts.PayPayEvent;
 import com.techland.paypay.contracts.TechLandEvent;
 import com.techland.paypay.wallet.helper.Settings;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @TechLandEvent(externalName = "Merchant.MerchantAddedEvent")
 public class MerchantAddedEvent implements PayPayEvent, Serializable {
 
@@ -16,38 +18,15 @@ public class MerchantAddedEvent implements PayPayEvent, Serializable {
 	private static final long serialVersionUID = 1L;
 	private final String id;
 	private final String name;
-	private final double balance;
-	private final double ledgerBalance;
-	private final boolean canReceivedFunds;
-	private final boolean canSendFunds;
 	private final String eventId;
 	private final Timestamp timestamp;
 
-	public MerchantAddedEvent(String id, String name) {
-
-		this.id = id;
-		this.eventId = com.techland.paypay.Settings.aggregateTag();
-		this.timestamp = new Timestamp(System.currentTimeMillis());
-		this.name = name;
-		this.balance =0.0;
-		this.ledgerBalance = 0.0;
-		this.canReceivedFunds = true;
-		this.canSendFunds = true;
-
-	}
-
-	public MerchantAddedEvent(String id, String name,double balance,double ledgerBalance,
-			boolean canReceivedFunds,boolean canSendFunds,String eventId,Timestamp timestamp)
-	{
+	public MerchantAddedEvent(String id, String name, String eventId, Timestamp timestamp) {
 
 		this.id = id;
 		this.eventId = eventId;
 		this.timestamp = timestamp;
 		this.name = name;
-		this.balance =balance;
-		this.ledgerBalance = ledgerBalance;
-		this.canReceivedFunds = canReceivedFunds;
-		this.canSendFunds = canSendFunds;
 
 	}
 
@@ -75,25 +54,10 @@ public class MerchantAddedEvent implements PayPayEvent, Serializable {
 		return name;
 	}
 
-	public double getBalance() {
-		return balance;
+	@Override
+	public String toString() {
+		return "{\"class\":\"MerchantAddedEvent\",\"id\":\"" + id + "\", \"name\":\"" + name + "\", \"eventId\":\""
+				+ eventId + "\", \"timestamp\":\"" + timestamp + "\"}";
 	}
-
-	public double getLedgerBalance() {
-		return ledgerBalance;
-	}
-
-	public boolean isCanReceivedFunds() {
-		return canReceivedFunds;
-	}
-
-	public boolean isCanSendFunds() {
-		return canSendFunds;
-	}
-	
-	
 
 }
-
-
-

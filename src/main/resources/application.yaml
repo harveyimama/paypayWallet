@@ -1,3 +1,5 @@
+server:
+  port: 9083
 spring: 
   main:
     allow-bean-definition-overriding: true
@@ -17,7 +19,7 @@ spring:
           contentType: application/json     
   data:
     cassandra:
-      keyspaceName: paypayUserKeySpace
+      keyspaceName: paypayWalletKeySpace
       contactPoints: 127.0.0.1
       port: 9042
       schemaAction: CREATE_IF_NOT_EXISTS
@@ -33,7 +35,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource: 
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/user?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/wallet?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
     password: 1W2w1s500.
   mail:

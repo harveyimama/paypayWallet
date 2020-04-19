@@ -32,12 +32,14 @@ public class WalletListener {
 		System.out.println("Wallet listening .......");
 		try {
 			boolean isSelfOriginated = false;
-			PayPayEvent event = EventFactory.getEvent(payload.getEvent(), payload.getEventName());
-			if (payload.getEventName().contains(Settings.DOMAIN))
+			if (payload.getDomain().equals(Settings.DOMAIN))
 				isSelfOriginated = true;
+			
+			PayPayEvent event = EventFactory.getEvent(payload.getEvent(), payload.getEventName(),isSelfOriginated?null:Settings.aggregateTag());
+			
 
 			ConcurrentHashMap<String, List<? extends Subscriber>> subscribers = subscriberFactory.getInstance(event);
-			listenerTools.handleEvent(payload, subscribers, event, new WalletState(),isSelfOriginated);
+			listenerTools.handleEvent(payload, subscribers, event, new WalletState());
 
 		} catch (Exception e) {
 			e.printStackTrace();

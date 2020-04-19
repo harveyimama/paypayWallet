@@ -1,11 +1,13 @@
 package com.techland.paypay.wallet.impl;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.techland.paypay.contracts.PayPayState;
 import com.techland.paypay.contracts.TechLandState;
 
 @TechLandState
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class WalletState implements PayPayState {
 
 	/**
@@ -72,7 +74,7 @@ public class WalletState implements PayPayState {
 	}
 
 	@Override
-	public void addEvent(String event) {
+	public WalletState addEvent(String event) {
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
@@ -80,18 +82,18 @@ public class WalletState implements PayPayState {
 
 			if (actualObj.get("class").asText().equals("MerchantAddedEvent")) {
 				WalletState json = mapper.readValue(event, WalletState.class);
-				this.setBalance(json.getBalance());
-				this.setCanReceivedFunds(json.isCanReceivedFunds());
-				this.setCanSendFunds(json.isCanSendFunds());
+				this.setBalance(this.getBalance()+0.0);
+				this.setCanReceivedFunds(true);
+				this.setCanSendFunds(true);
 				this.setId(json.getId());
-				this.setLedgerBalance(json.getLedgerBalance());
+				this.setLedgerBalance(this.getLedgerBalance()+0.0);
 				this.setName(json.getName());
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		return this;
 	}
 
 	@Override
@@ -99,17 +101,15 @@ public class WalletState implements PayPayState {
 
 		try {
 			ObjectMapper mapper = new ObjectMapper();
-			JsonNode actualObj = mapper.readTree(state);
 
-			if (actualObj.get("class").asText().equals("MerchantAddedEvent")) {
 				WalletState json = mapper.readValue(state, WalletState.class);
 				this.setBalance(json.getBalance());
 				this.setCanReceivedFunds(json.isCanReceivedFunds());
 				this.setCanSendFunds(json.isCanSendFunds());
 				this.setId(json.getId());
-				this.setLedgerBalance(json.getLedgerBalance());
+				this.setLedgerBalance(0.0);
 				this.setName(json.getName());
-			}
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

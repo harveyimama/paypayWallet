@@ -13,7 +13,7 @@ import com.techland.paypay.wallet.impl.WalletState;
 import com.techland.paypay.wallet.persistence.Wallet;
 import com.techland.paypay.wallet.persistence.WalletRepository;
 @Component
-@TechLandSubscriber(events = {"Merchant.MerchantAddedEvent"},isstate=true)
+@TechLandSubscriber(events = {"MerchantAddedEvent"},isstate=true)
 public class WalletPersistance  implements StateSubscriber {
 	@Autowired
 	private Wallet wallet;
